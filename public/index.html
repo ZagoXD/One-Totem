@@ -9,10 +9,24 @@
 <body>
   <div class="container mt-5">
     <h2>Task Manager</h2>
+    <!-- Create Task -->
     <form id="taskForm">
-      <input type="text" id="taskTitle" placeholder="Task title" class="form-control mb-2" required>
+      <input type="text" id="taskTitle" placeholder="Task title" class="form-control mb-2">
+      <div id="messageContainer" class="mb-2"></div> <!-- Container for messages -->
       <button type="submit" class="btn btn-primary">Add Task</button>
     </form>
+    
+    <!-- Task Filters -->
+    <div class="mt-3">
+      <label for="filterTasks">Filter Tasks:</label>
+      <select id="filterTasks" class="form-control">
+        <option value="all">All</option>
+        <option value="completed">Completed</option>
+        <option value="incomplete">Incomplete</option>
+      </select>
+    </div>
+    
+    <!-- Show Tasks -->
     <ul id="taskList" class="list-group mt-3"></ul>
   </div>
 
