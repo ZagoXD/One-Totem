@@ -48,11 +48,16 @@ To run this project with MongoDB locally, follow these steps:
 
 2. **Start MongoDB**:
    Use the appropriate command for your operating system:
+   Windows:
+   ```bash
+   net start MongoDB
+   ```
+   Linux/MacOS:
    ```bash
    sudo systemctl start mongod
    ```
 
-3. **Set Up `.env`**:
+4. **Set Up `.env`**:
    Configure the `MONGO_URI` variable in `.env`:
    ```env
    MONGO_URI=mongodb://localhost:27017/taskManagerDB
