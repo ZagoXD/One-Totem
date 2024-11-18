@@ -61,7 +61,7 @@ A web-based task management application that allows users to register, log in, a
 4. **Run the Application**:
    Start the server:
    ```bash
-   npm start
+   node server.js
    ```
    The application will be available at [http://localhost:5000](http://localhost:5000).
 
