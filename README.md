@@ -38,6 +38,29 @@ A web-based task management application that allows users to register, log in, a
 - **Node.js** and **npm** installed on your machine.
 - **MongoDB** or any preferred database for data storage.
 
+
+## Running MongoDB Locally
+
+To run this project with MongoDB locally, follow these steps:
+
+1. **Install MongoDB**:
+   Download MongoDB from the [MongoDB Download Center](https://www.mongodb.com/try/download/community).
+
+2. **Start MongoDB**:
+   Use the appropriate command for your operating system:
+   ```bash
+   sudo systemctl start mongod
+   ```
+
+3. **Set Up `.env`**:
+   Configure the `MONGO_URI` variable in `.env`:
+   ```env
+   MONGO_URI=mongodb://localhost:27017/taskManagerDB
+   ```
+
+For more details, refer to the [official MongoDB documentation](https://www.mongodb.com/docs/manual/).
+
+
 ### Steps
 1. **Clone the Repository**:
    ```bash
