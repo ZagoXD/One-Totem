@@ -1,20 +1,20 @@
-# Usar imagem oficial do Node.js
+# NodeJS Image
 FROM node:18
 
-# Instalar MongoDB
+# Install MongoDB
 RUN apt-get update && apt-get install -y mongodb
 
-# Definir diretório de trabalho
+# Define workdir
 WORKDIR /app
 
-# Copiar os arquivos do projeto
+# Copy files
 COPY . .
 
-# Instalar dependências
+# Install Dependencies
 RUN npm install
 
-# Expor porta do MongoDB
+# MondoDB port
 EXPOSE 27017
 
-# Rodar MongoDB e o app
-CMD mongod --fork --logpath /var/log/mongodb.log && npm start
+# Run MongoDB and app
+CMD mongod --fork --logpath /var/log/mongodb.log && node server.js
