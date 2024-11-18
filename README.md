@@ -39,7 +39,7 @@ A web-based task management application that allows users to register, log in, a
 - **MongoDB** or any preferred database for data storage.
 
 
-## Running MongoDB Locally
+### Running MongoDB Locally
 
 To run this project with MongoDB locally, follow these steps:
 
@@ -60,6 +60,7 @@ To run this project with MongoDB locally, follow these steps:
 
 For more details, refer to the [official MongoDB documentation](https://www.mongodb.com/docs/manual/).
 
+---
 
 ### Steps
 1. **Clone the Repository**:
