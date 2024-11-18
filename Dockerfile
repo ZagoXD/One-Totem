@@ -13,6 +13,9 @@ COPY . .
 # Install Dependencies
 RUN npm install
 
+# App port
+EXPOSE 5000
+
 # MondoDB port
 EXPOSE 27017
 
