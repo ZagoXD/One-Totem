@@ -4,58 +4,125 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task Manager</title>
+  <!-- <link rel="stylesheet" href="index.css"> -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="container mt-5">
-    <h2>Task Manager</h2>
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .container {
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+#taskList {
+  overflow-y: auto;
+  max-height: calc(90vh - 150px); 
+  }
+
+  h2, h3 {
+    color: #2c3e50;
+  }
+
+  input.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  button {
+    font-weight: 600;
+  }
+
+  .list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    background: #f8f9fa;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .list-group-item span {
+    flex: 1;
+    margin-left: 10px;
+  }
+  
+  .list-group-item button {
+    margin-left: auto;
+    font-size: 12px;
+  }
+  .list-group-item[style*="display: none"] {
+  display: none !important;
+}
+  
+</style>
+<body class="bg-light">
+  <div class="container mt-5 p-4 shadow-lg bg-white rounded">
+    <h2 class="text-center text-primary fw-bold mb-4">Task Manager</h2>
     
     <!-- Messages Container -->
     <div id="messageContainer" class="mt-3"></div>
 
     <!-- Login Form -->
     <div id="loginForm">
-      <h3>Login</h3>
-      <input type="text" id="loginUsername" placeholder="Username" class="form-control mb-2">
-      <input type="password" id="loginPassword" placeholder="Password" class="form-control mb-2">
-      <button class="btn btn-primary" onclick="login()">Login</button>
-      <p class="mt-3">Não tem uma conta? <a href="#" onclick="toggleForms()">Registre-se aqui</a></p>
+      <h3 class="text-center">Login</h3>
+      <input type="text" id="loginUsername" placeholder="Username" class="form-control mb-3 shadow-sm">
+      <input type="password" id="loginPassword" placeholder="Password" class="form-control mb-3 shadow-sm">
+      <button class="btn btn-primary w-100 shadow-sm" onclick="login()">Login</button>
+      <p class="text-center mt-3">
+        Não tem uma conta? 
+        <a href="#" onclick="toggleForms()" class="text-decoration-none text-primary fw-semibold">Registre-se aqui</a>
+      </p>
     </div>
 
     <!-- Register Form -->
     <div id="registerForm" style="display: none;">
-      <h3>Registro</h3>
-      <input type="text" id="registerUsername" placeholder="Username" class="form-control mb-2">
-      <input type="password" id="registerPassword" placeholder="Password" class="form-control mb-2">
-      <button class="btn btn-success" onclick="register()">Registrar</button>
-      <p class="mt-3">Já tem uma conta? <a href="#" onclick="toggleForms()">Faça login aqui</a></p>
+      <h3 class="text-center">Registro</h3>
+      <input type="text" id="registerUsername" placeholder="Username" class="form-control mb-3 shadow-sm">
+      <input type="password" id="registerPassword" placeholder="Password" class="form-control mb-3 shadow-sm">
+      <button class="btn btn-success w-100 shadow-sm" onclick="register()">Registrar</button>
+      <p class="text-center mt-3">
+        Já tem uma conta? 
+        <a href="#" onclick="toggleForms()" class="text-decoration-none text-success fw-semibold">Faça login aqui</a>
+      </p>
     </div>
 
     <!-- Task Manager -->
     <div id="taskManager" style="display: none;">
-      <h3>Gerenciador de Tarefas</h3>
+      <h3 class="text-center mb-3">Gerenciador de Tarefas</h3>
+
       <!-- Create Task -->
-      <form id="taskForm">
-        <input type="text" id="taskTitle" placeholder="Task title" class="form-control mb-2">
-        <button type="submit" class="btn btn-primary">Add Task</button>
+      <form id="taskForm" class="d-flex gap-2">
+        <input type="text" id="taskTitle" placeholder="Task title" class="form-control shadow-sm">
+        <button type="submit" class="btn btn-primary shadow-sm">Add</button>
       </form>
 
       <!-- Task Filters -->
-      <div class="mt-3">
-        <label for="filterTasks">Filter Tasks:</label>
-        <select id="filterTasks" class="form-control">
-          <option value="all">All</option>
-          <option value="completed">Completed</option>
-          <option value="incomplete">incomplete</option>
+      <div class="mt-4">
+        <label for="filterTasks" class="form-label">Filtrar Tarefas:</label>
+        <select id="filterTasks" class="form-select shadow-sm">
+          <option value="all">Todas</option>
+          <option value="completed">Completas</option>
+          <option value="incomplete">Incompletas</option>
         </select>
       </div>
 
       <!-- Show Tasks -->
-      <ul id="taskList" class="list-group mt-3"></ul>
+      <ul id="taskList" class="list-group mt-3 shadow-sm"></ul>
 
       <!-- Logout Button -->
-      <button class="btn btn-secondary mt-3" onclick="logout()">Logout</button>
+      <button class="btn btn-secondary mt-4 w-100 shadow-sm" onclick="logout()">Logout</button>
     </div>
   </div>
 

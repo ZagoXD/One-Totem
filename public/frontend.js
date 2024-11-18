@@ -41,14 +41,14 @@ async function addTask(event) {
 function displayTask(task) {
   const taskList = document.getElementById('taskList');
   const taskItem = document.createElement('li');
-  taskItem.className = 'list-group-item d-flex align-items-center'; // Adiciona classes para alinhamento
+  taskItem.className = 'list-group-item d-flex align-items-center';
   taskItem.dataset.taskId = task._id;
 
   // Checkbox for completed
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.checked = task.completed;
-  checkbox.className = 'me-2'; // Adiciona espaçamento à direita
+  checkbox.className = 'me-2'; 
   checkbox.addEventListener('change', () => toggleComplete(task._id, checkbox.checked));
 
   const taskTitle = document.createElement('span');
@@ -109,21 +109,30 @@ async function loadTasks() {
     if (!response.ok) throw new Error('Error loading tasks.');
 
     const tasks = await response.json();
-    document.getElementById('taskList').innerHTML = '';
+
+    const taskList = document.getElementById('taskList');
+    taskList.innerHTML = '';
+
     tasks.forEach(displayTask);
+
+    filterTasks();
+
   } catch (error) {
     console.error('Error loading tasks:', error);
     showMessage('Error loading tasks. Please try again.', 'danger');
   }
 }
 
+
 // Filter Tasks
 function filterTasks() {
   const filterValue = document.getElementById('filterTasks').value;
+
   const tasks = document.querySelectorAll('#taskList li');
 
   tasks.forEach(taskItem => {
     const isCompleted = taskItem.querySelector('input[type="checkbox"]').checked;
+
     if (
       filterValue === 'all' ||
       (filterValue === 'completed' && isCompleted) ||
@@ -227,7 +236,5 @@ async function logout() {
     showMessage('Error logging out. Please try again.', 'danger');
   }
 }
-
-if (response.ok){ // load tasks after login
   loadTasks();
-}
+
