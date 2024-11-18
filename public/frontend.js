@@ -228,4 +228,6 @@ async function logout() {
   }
 }
 
-loadTasks();
+if (response.ok){ // load tasks after login
+  loadTasks();
+}
