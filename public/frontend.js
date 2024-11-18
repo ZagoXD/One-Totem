@@ -41,13 +41,14 @@ async function addTask(event) {
 function displayTask(task) {
   const taskList = document.getElementById('taskList');
   const taskItem = document.createElement('li');
-  taskItem.className = 'list-group-item';
+  taskItem.className = 'list-group-item d-flex align-items-center'; // Adiciona classes para alinhamento
   taskItem.dataset.taskId = task._id;
 
   // Checkbox for completed
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.checked = task.completed;
+  checkbox.className = 'me-2'; // Adiciona espaçamento à direita
   checkbox.addEventListener('change', () => toggleComplete(task._id, checkbox.checked));
 
   const taskTitle = document.createElement('span');
@@ -57,7 +58,7 @@ function displayTask(task) {
   // Delete Button
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Excluir';
-  deleteButton.className = 'btn btn-danger btn-sm float-end';
+  deleteButton.className = 'btn btn-danger btn-sm ms-auto'; 
   deleteButton.addEventListener('click', () => deleteTask(task._id, taskItem));
 
   taskItem.appendChild(checkbox);
@@ -133,6 +134,98 @@ function filterTasks() {
       taskItem.style.display = 'none';
     }
   });
+}
+function toggleForms() {
+  document.getElementById('loginForm').style.display = 
+    document.getElementById('loginForm').style.display === 'none' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = 
+    document.getElementById('registerForm').style.display === 'none' ? 'block' : 'none';
+}
+
+function showMessage(message, type) {
+  const messageContainer = document.getElementById('messageContainer');
+  messageContainer.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+  setTimeout(() => {
+    messageContainer.innerHTML = '';
+  }, 3000);
+}
+
+// Register New User
+async function register() {
+  const username = document.getElementById('registerUsername').value.trim();
+  const password = document.getElementById('registerPassword').value.trim();
+
+  try {
+    const response = await fetch('/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      showMessage('User registered successfully!', 'success');
+      toggleForms();
+    } else {
+      showMessage(result.error || 'Error registering. Please try again.', 'danger');
+    }
+  } catch (error) {
+    showMessage('Error registering. Please try again.', 'danger');
+  }
+}
+
+// Login Function
+async function login() {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+
+  try {
+    const response = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    // Verify response before login
+    if (response.status === 401) {
+      showMessage('Invalid credentials. Please try again.', 'danger');
+      return;
+    }
+
+    if (!response.ok) {
+      showMessage('Error logging in. Please try again.', 'danger');
+      return;
+    }
+
+    // Loged
+    const result = await response.json();
+    showMessage('Login successfully!', 'success');
+
+    // Show Task Manager
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('taskManager').style.display = 'block';
+    loadTasks(); 
+
+  } catch (error) {
+    console.error('Erro ao fazer login:', error);
+    showMessage('Error logging in. Please try again.', 'danger');
+  }
+}
+
+async function logout() {
+  try {
+    const response = await fetch('/auth/logout', { method: 'POST' });
+    if (response.ok) {
+      showMessage('Deslogado com sucesso.', 'success');
+      document.getElementById('taskManager').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    } else {
+      showMessage('Error logging out. Please try again.', 'danger');
+    }
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+    showMessage('Error logging out. Please try again.', 'danger');
+  }
 }
 
 loadTasks();

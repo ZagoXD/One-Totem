@@ -1,41 +1,55 @@
 const Task = require('../models/Task');
 
-
-// Export Created Task
+// Create New Task
 exports.createTask = async (req, res) => {
   try {
-    const task = await Task.create({ title: req.body.title, completed: false });
+    const task = await Task.create({
+      title: req.body.title,
+      completed: false,
+      userId: req.userId // get userID by middleware
+    });
     res.status(201).json(task);
   } catch (error) {
-    res.status(400).json({ error: 'Error creating task' });
+    res.status(400).json({ error: 'Erro ao criar a tarefa' });
   }
 };
 
+// Get user tasks
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({ userId: req.userId });
     res.status(200).json(tasks);
   } catch (error) {
-    res.status(400).json({ error: 'Error fetching tasks' });
+    res.status(400).json({ error: 'Erro ao buscar tarefas' });
   }
 };
 
-// Export Updated Task to Completed
+// Update Task
 exports.updateTask = async (req, res) => {
   try {
-    const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const task = await Task.findOneAndUpdate(
+      { _id: req.params.id, userId: req.userId },
+      req.body,
+      { new: true }
+    );
+    if (!task) {
+      return res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
     res.status(200).json(task);
   } catch (error) {
-    res.status(400).json({ error: 'Error updating task' });
+    res.status(400).json({ error: 'Erro ao atualizar a tarefa' });
   }
 };
 
-// Export Deleted Task
+// Delete Task
 exports.deleteTask = async (req, res) => {
   try {
-    await Task.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: 'Task deleted' });
+    const task = await Task.findOneAndDelete({ _id: req.params.id, userId: req.userId });
+    if (!task) {
+      return res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
+    res.status(200).json({ message: 'Tarefa deletada' });
   } catch (error) {
-    res.status(400).json({ error: 'Error deleting task' });
+    res.status(400).json({ error: 'Erro ao deletar a tarefa' });
   }
 };
